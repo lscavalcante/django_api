@@ -32,7 +32,6 @@ class ExampleModelViewSet(ModelViewSet):
     @swagger_auto_schema(auto_schema=None)
     @action(methods=['post'], detail=False, serializer_class=ExampleModelCreateTestSerializer, url_path='follow-params/(?P<id>\d+)')
     def follow_params(self, request, id=None):
-        print(id)
         data = {
             'link': 'BLZ',
             'status': True
