@@ -43,6 +43,8 @@ class RegisterView(generics.GenericAPIView):
 
         Util.send_email(data)
 
+        print('teste')
+
         return Response(user_data, status=status.HTTP_201_CREATED)
 
 
