@@ -50,3 +50,6 @@ urlpatterns = [
     path('example-model/', include('apps.example_model.urls')),
     path('userstats/', include('apps.userstats.urls')),
 ]
+
+handler404 = 'utils.views.error_404'
+handler505 = 'utils.views.error_500'
