@@ -1,12 +1,12 @@
 import jwt
-from rest_framework import generics, status, views
+from rest_framework import generics, status, views, permissions
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from renderers import UserRenderer
 from .models import User
 from .serializers import RegisterSerializer, EmailVerificationSerializer, LoginSerializer, \
-    ResetPasswordEmailRequestSerializer, SetNewPasswordSerializer
+    ResetPasswordEmailRequestSerializer, SetNewPasswordSerializer, LogoutSerializer
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from django.conf import settings
@@ -50,7 +50,6 @@ class RegisterView(generics.GenericAPIView):
 
 class VerifyEmail(views.APIView):
     serializer_class = EmailVerificationSerializer
-
 
     token_param_config = openapi.Parameter('token', in_=openapi.IN_QUERY, description='Description', type=openapi.TYPE_STRING)
 
@@ -129,3 +128,17 @@ class SetNewPasswordApiView(generics.GenericAPIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response({'success': True, 'message': 'Password reset success'}, status=status.HTTP_200_OK)
+
+
+class LogoutApiView(generics.GenericAPIView):
+    serializer_class = LogoutSerializer
+
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request):
+
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
