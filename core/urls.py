@@ -44,6 +44,7 @@ urlpatterns = [
     path('doc/', login_required(schema_view.with_ui('swagger', cache_timeout=0)), name='schema-swagger-ui'),
     path('redoc/', login_required(schema_view.with_ui('redoc', cache_timeout=0)), name='schema-redoc'),
     path('auth/', include('apps.authentication.urls')),
+    path('social_auth/', include('apps.social_auth.urls')),
     path('expenses/', include('apps.expenses.urls')),
     path('incomes/', include('apps.income.urls')),
     path('example-model/', include('apps.example_model.urls')),
